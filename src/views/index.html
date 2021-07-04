@@ -1,14 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+        integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
-    <h1>Test</h1>
+    <div class="container">
+        <div class="search">
+            <h1>Search</h1>
+            <div class="filter">
+                <form class="checkbox-form">
+                    <label>
+                        <input type="checkbox" name="user">
+                        <p>User</p>
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="book">
+                        <p>Book</p>
+                    </label>
+
+                    <label>
+                        <input type="checkbox" name="film">
+                        <p>Film</p>
+                    </label>
+                </form>
+            </div>
+            <div class="search-form">
+                <form>
+                    <input class="search-input" type="search" name="search" placeholder="Search..." autocomplete="off" required>
+                </form>
+            </div>
+        </div>
+        <div class="results">
+            <ul class="result-list">
+                <li class="result-item">
+                    <div class="header">
+                        <span class="fas fa-user"></span>
+                        <h2 class="header-title">Users</h2>
+                    </div>
+                    <div class="user-body">
+                        <p><b>First name:</b> Adham</p>
+                        <p><b>Last name:</b> Muzaffarov</p>
+                        <p><b>Contact:</b> 998998000334</p>
+                    </div>
+                </li>
+                <li class="result-item">
+                    <div class="header">
+                        <span class="fas fa-book"></span>
+                        <h2 class="header-title">Book</h2>
+                    </div>
+                    <div class="book-body">
+                        <p><b>Name:</b> Atomic Habits</p>
+                        <p><b>Category:</b> Self-help</p>
+                        <p><b>Release Date:</b> 2018</p>
+                    </div>
+                </li>
+                <li class="result-item">
+                    <div class="header">
+                        <span class="fas fa-video"></span>
+                        <h2 class="header-title">Film</h2>
+                    </div>
+                    <div class="film-body">
+                        <p><b>Name:</b> Social Network</p>
+                        <p><b>Category:</b> Biography, Drama</p>
+                        <p><b>Release Date:</b> 2010</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
     <script src="/js/main.js"></script>
 </body>
+
 </html>
