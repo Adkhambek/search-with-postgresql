@@ -39,7 +39,7 @@ function renderElements (title, tableName, icon, arr1, arr2 ) {
         results.appendChild(h2)
         results.appendChild(hr)
         results.appendChild(ul)  
-    }
+    } 
 
 const renderUsers = async () => {
     const users = await request('/users', 'GET')
@@ -65,17 +65,26 @@ searchInput.addEventListener('input', async () => {
                 const result = await request('/api/'+checkvalue+'/search', 'POST', {
                     search: searchInput.value
                 })
-                renderElements('Users', result, 'user', ['First name', 'Last name', 'Contact'], ['first_name', 'last_name', 'contact']) 
+                if(result.length){
+                    renderElements('Users', result, 'user', ['First name', 'Last name', 'Contact'], ['first_name', 'last_name', 'contact']) 
+                }
+               
             } else if(checkvalue == 'books'){
                 const result = await request('/api/'+checkvalue+'/search', 'POST', {
                     search: searchInput.value
                 })
-                renderElements('Books', result, 'book', ['Name', 'Category', 'Release Date'], ['name', 'category', 'date'])
+                if(result.length){
+                    renderElements('Books', result, 'book', ['Name', 'Category', 'Release Date'], ['name', 'category', 'date'])
+                }
+                
             } else if(checkvalue == 'films'){
                 const result = await request('/api/'+checkvalue+'/search', 'POST', {
                     search: searchInput.value
                 })
-                renderElements('Films', result, 'video', ['Name', 'Category', 'Release Date'], ['name', 'category', 'date']) 
+                if(result.length){
+                    renderElements('Films', result, 'video', ['Name', 'Category', 'Release Date'], ['name', 'category', 'date'])  
+                }
+                 
             }
         }
     }else {
