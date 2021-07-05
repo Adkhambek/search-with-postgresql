@@ -5,14 +5,14 @@ const pool = new Pool({
     port: 5432,
     user: 'postgres',
     password: 'asa',
-    database: 'demodb'
+    database: 'search'
 })
 
 const fetch = async (query, ...params) => {
    const connect = await pool.connect()
    try {
     const {rows} = await connect.query(query, params.length ? params : null) 
-    console.log(rows);
+    return rows
    } catch (error) {
        console.log(error);
    } finally {
