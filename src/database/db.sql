@@ -1,4 +1,6 @@
-CREATE DATABASE test;
+
+
+CREATE DATABASE search;
 
 CREATE TABLE IF NOT EXISTS users(
     id serial not null primary key,
