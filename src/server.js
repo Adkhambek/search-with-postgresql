@@ -29,6 +29,7 @@ app.get('/films', async (req,res) => {
 
 app.post('/api/users/search', async (req,res) => {
     const {search} = req.body
+    console.log(search);
     const query = `
     SELECT * FROM users
     WHERE first_name ILIKE '%${search}%'

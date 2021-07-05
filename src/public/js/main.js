@@ -1,91 +1,94 @@
 const results = document.querySelector('.results')
+const checks = document.querySelectorAll("input[type='checkbox']")
+const searchInput = document.querySelector('.search-input')
+let arr = []
+
+for (const check of checks) {
+        check.addEventListener('click', () => {
+            if(check.checked){
+            arr.push(check.value) 
+            }else {
+              arr = arr.filter(e => e != check.value)
+            }
+        })
+    }
+
+function renderElements (title, tableName, icon, arr1, arr2 ) {
+        const h2 = document.createElement('h2')
+        h2.textContent = title
+        const hr = document.createElement('hr')
+        const ul = document.createElement('ul')
+        ul.setAttribute('class', 'result-list')
+        let innerHtml = ''
+        for (const value of tableName) {
+            innerHtml += `
+            <li class="result-item">
+                        <div class="header">
+                            <span class="fas fa-${icon}"></span>
+                            <h2 class="header-title">${title}</h2>
+                        </div>
+                        <div class="user-body">
+                            <p><b>${arr1[0]}:</b> ${value[arr2[0]]}</p>
+                            <p><b>${arr1[1]}:</b> ${value[arr2[1]]}</p>
+                            <p><b>${arr1[2]}</b> ${value[arr2[2]]}</p>
+                        </div>
+                    </li>
+            `
+        }
+        ul.innerHTML = innerHtml
+        results.appendChild(h2)
+        results.appendChild(hr)
+        results.appendChild(ul)  
+    }
 
 const renderUsers = async () => {
     const users = await request('/users', 'GET')
-    const h2 = document.createElement('h2')
-    h2.textContent = 'Users'
-    const hr = document.createElement('hr')
-    const ul = document.createElement('ul')
-    ul.setAttribute('class', 'result-list')
-    let innerHtml = ''
-    for (const user of users) {
-        innerHtml += `
-        <li class="result-item">
-                    <div class="header">
-                        <span class="fas fa-user"></span>
-                        <h2 class="header-title">User</h2>
-                    </div>
-                    <div class="user-body">
-                        <p><b>First name:</b> ${user.first_name}</p>
-                        <p><b>Last name:</b> ${user.last_name}</p>
-                        <p><b>Contact:</b> ${user.contact_name}</p>
-                    </div>
-                </li>
-        `
-    }
-    ul.innerHTML = innerHtml
-    results.appendChild(h2)
-    results.appendChild(hr)
-    results.appendChild(ul)
+    renderElements('Users', users, 'user', ['First name', 'Last name', 'Contact'], ['first_name', 'last_name', 'contact'])    
 }
 
 const renderBooks = async () => {
     const books = await request('/books', 'GET')
-    const h2 = document.createElement('h2')
-    h2.textContent = 'Books'
-    const hr = document.createElement('hr')
-    const ul = document.createElement('ul')
-    ul.setAttribute('class', 'result-list')
-    let innerHtml = ''
-    for (const book of books) {
-        innerHtml += `
-        <li class="result-item">
-                    <div class="header">
-                    <span class="fas fa-book"></span>
-                    <h2 class="header-title">Book</h2>
-                    </div>
-                    <div class="user-body">
-                        <p><b>Name:</b> ${book.name}</p>
-                        <p><b>Category:</b> ${book.category}</p>
-                        <p><b>Release Date:</b> ${book.date}</p>
-                    </div>
-                </li>
-        `
-    }
-    ul.innerHTML = innerHtml
-    results.appendChild(h2)
-    results.appendChild(hr)
-    results.appendChild(ul)
+    renderElements('Books', books, 'book', ['Name', 'Category', 'Release Date'], ['name', 'category', 'date'])    
 }
 
 const renderFilms = async () => {
     const films = await request('/films', 'GET')
-    const h2 = document.createElement('h2')
-    h2.textContent = 'Films'
-    const hr = document.createElement('hr')
-    const ul = document.createElement('ul')
-    ul.setAttribute('class', 'result-list')
-    let innerHtml = ''
-    for (const film of films) {
-        innerHtml += `
-        <li class="result-item">
-                    <div class="header">
-                    <span class="fas fa-video"></span>
-                    <h2 class="header-title">Film</h2>
-                    </div>
-                    <div class="user-body">
-                        <p><b>Name:</b> ${film.name}</p>
-                        <p><b>Category:</b> ${film.category}</p>
-                        <p><b>Release Date:</b> ${film.date}</p>
-                    </div>
-                </li>
-        `
-    }
-    ul.innerHTML = innerHtml
-    results.appendChild(h2)
-    results.appendChild(hr)
-    results.appendChild(ul)
+    renderElements('Films', films, 'video', ['Name', 'Category', 'Release Date'], ['name', 'category', 'date']) 
 }
+
+searchInput.addEventListener('input', async () => {
+    if(searchInput.value.length) {
+        results.innerHTML = null
+        const checkValues = arr
+        for (const checkvalue of checkValues) {
+            if(checkvalue == 'users'){
+                const result = await request('/api/'+checkvalue+'/search', 'POST', {
+                    search: searchInput.value
+                })
+                renderElements('Users', result, 'user', ['First name', 'Last name', 'Contact'], ['first_name', 'last_name', 'contact']) 
+            } else if(checkvalue == 'books'){
+                const result = await request('/api/'+checkvalue+'/search', 'POST', {
+                    search: searchInput.value
+                })
+                renderElements('Books', result, 'book', ['Name', 'Category', 'Release Date'], ['name', 'category', 'date'])
+            } else if(checkvalue == 'films'){
+                const result = await request('/api/'+checkvalue+'/search', 'POST', {
+                    search: searchInput.value
+                })
+                renderElements('Films', result, 'video', ['Name', 'Category', 'Release Date'], ['name', 'category', 'date']) 
+            }
+        }
+    }else {
+        results.innerHTML = null
+        renderBooks()
+        renderFilms()
+        renderUsers() 
+    }
+        
+        
+    
+}) 
+
 
 renderBooks()
 renderFilms()
